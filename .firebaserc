@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "mini-udemy-4fbb5": {
+      "hosting": {
+        "mini-udemy": [
+          "mini-udemy-4fbb5"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "mini-udemy-4fbb5"
+  }
+}
