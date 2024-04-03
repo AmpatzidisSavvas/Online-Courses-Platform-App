@@ -1,19 +1,6 @@
-import { Course, Lecture } from './types';
+import { Lecture } from './types';
 
-export const COURSES: Course[] = [
-  {
-    title: 'Angular v17',
-    description: 'The best Angular course ever',
-    id: '1',
-    category: 'angular',
-  },
-  {
-    title: 'NextJS',
-    description: 'The best Next 14 course ever',
-    id: '2',
-    category: 'react',
-  },
-];
+
 
 export const LECTURES: Lecture[] = [
   {

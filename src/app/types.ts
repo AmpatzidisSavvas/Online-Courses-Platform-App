@@ -10,6 +10,6 @@ export type Lecture = {
   id: string;
   title: string;
   duration: string;
-  videoUrl: string;
+  videoUrl?: string;
   description?: string;
 };

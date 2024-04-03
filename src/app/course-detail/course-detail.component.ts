@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Course, Lecture } from '../types';
 import { ActivatedRoute } from '@angular/router';
 import { ModalComponent } from '../components/modal/modal.component';
@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { LectureListItemComponent } from '../components/lecture-list-item/lecture-list-item.component';
 import { LoaderComponent } from '../components/loader/loader.component';
-import { COURSES, LECTURES } from '../dummy-data';
+import { LECTURES } from '../dummy-data';
+import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-course-detail',
@@ -22,9 +23,26 @@ import { COURSES, LECTURES } from '../dummy-data';
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.scss',
 })
-export class CourseDetailComponent {
-  course: Course | null = COURSES[0];
+export class CourseDetailComponent implements OnInit {
+  
+  course!: Course | null;
   isLoadingCourse = false;
   lectures: Lecture[] = LECTURES;
   isCreateLectureModalOpen = false;
+  activateRoute = inject(ActivatedRoute);
+  firestore = inject(Firestore);
+
+  ngOnInit(): void {
+    const id = this.activateRoute.snapshot.paramMap.get('id') as string
+    this.getCourse(id);
+  }
+
+  async getCourse(id: string) {
+    this.isLoadingCourse = true;
+    const courseDocRef = doc(this.firestore, `courses/${id}`);
+    const courseDoSnapshot = await getDoc(courseDocRef);
+    const course = courseDoSnapshot.data() as Course;
+    this.course = course;
+    this.isLoadingCourse = false
+  }
 }

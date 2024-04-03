@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CourseCardComponent } from '../components/course-card/course-card.component';
 import { ModalComponent } from '../components/modal/modal.component';
 import { CreateCourseFormComponent } from '../components/create-course-form/create-course-form.component';
 import { AsyncPipe } from '@angular/common';
 import { LoaderComponent } from '../components/loader/loader.component';
 import { Course } from '../types';
-import { COURSES } from '../dummy-data';
+import { Firestore, collection, collectionData } from '@angular/fire/firestore';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-courses',
@@ -20,7 +21,16 @@ import { COURSES } from '../dummy-data';
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.scss',
 })
-export class CoursesComponent {
+export class CoursesComponent implements OnInit {
+  
+
   isCreateCourseModalOpen = false;
-  courses: Course[] = COURSES;
+  courses$!: Observable <Course[]>;
+  firestore = inject(Firestore);
+
+  ngOnInit(): void {
+    const courseRef = collection(this.firestore, 'courses');
+    this.courses$ = collectionData(courseRef) as Observable<Course[]>;
+  }
+
 }
