@@ -8,7 +8,7 @@ import { AsyncPipe } from '@angular/common';
 import { LectureListItemComponent } from '../components/lecture-list-item/lecture-list-item.component';
 import { LoaderComponent } from '../components/loader/loader.component';
 import { LECTURES } from '../dummy-data';
-import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, getDoc, orderBy, query } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-course-detail',
@@ -27,7 +27,7 @@ export class CourseDetailComponent implements OnInit {
   
   course!: Course | null;
   isLoadingCourse = false;
-  lectures: Lecture[] = LECTURES;
+  lectures$!: Observable<Lecture[]>;
   isCreateLectureModalOpen = false;
   activateRoute = inject(ActivatedRoute);
   firestore = inject(Firestore);
@@ -35,6 +35,11 @@ export class CourseDetailComponent implements OnInit {
   ngOnInit(): void {
     const id = this.activateRoute.snapshot.paramMap.get('id') as string
     this.getCourse(id);
+    const lecturesRef = query(
+      collection(this.firestore, `courses/${id}/lectures`), 
+      orderBy('cts', 'asc')
+    );
+    this.lectures$ = collectionData(lecturesRef) as Observable<Lecture[]>;
   }
 
   async getCourse(id: string) {

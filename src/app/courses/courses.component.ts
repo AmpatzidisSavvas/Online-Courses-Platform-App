@@ -29,8 +29,10 @@ export class CoursesComponent implements OnInit {
   firestore = inject(Firestore);
 
   ngOnInit(): void {
+    this.isCreateCourseModalOpen = true;
     const courseRef = collection(this.firestore, 'courses');
     this.courses$ = collectionData(courseRef) as Observable<Course[]>;
+    this.isCreateCourseModalOpen = false;
   }
 
 }
