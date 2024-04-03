@@ -15,13 +15,21 @@
     <div class="border-t border-gray-300 pt-4 mt-4">
       <div class="flex items-center justify-between">
         <h3 class="text-lg font-semibold text-gray-800 mb-3">Lectures</h3>
-        <button (click)="isCreateLectureModalOpen = true"
-          class="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-1 font-bold py-2 px-4 rounded">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          Create
-        </button>
+        <div class="flex items-center justify-center">
+            <button (click)="isCreateLectureModalOpen = true"
+              class="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-1 font-bold py-2 px-4 rounded m-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Create
+            </button>
+            <button  class="bg-red-500 hover:bg-red-600 text-white flex items-center gap-1 font-bold py-2 px-4 rounded">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              Delete
+            </button>
+        </div>
       </div>
       @if (!(lectures$)) {
         <div class="w-full py-4 flex items-center justify-center">
