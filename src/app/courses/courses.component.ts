@@ -7,19 +7,21 @@ import { LoaderComponent } from '../components/loader/loader.component';
 import { Course } from '../types';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs/internal/Observable';
+import { EditCourseFormComponent } from "../components/edit-course-form/edit-course-form.component";
 
 @Component({
-  selector: 'app-courses',
-  standalone: true,
-  imports: [
-    CourseCardComponent,
-    ModalComponent,
-    CreateCourseFormComponent,
-    AsyncPipe,
-    LoaderComponent,
-  ],
-  templateUrl: './courses.component.html',
-  styleUrl: './courses.component.scss',
+    selector: 'app-courses',
+    standalone: true,
+    templateUrl: './courses.component.html',
+    styleUrl: './courses.component.scss',
+    imports: [
+        CourseCardComponent,
+        ModalComponent,
+        CreateCourseFormComponent,
+        AsyncPipe,
+        LoaderComponent,
+        EditCourseFormComponent
+    ]
 })
 export class CoursesComponent implements OnInit {
   

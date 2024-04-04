@@ -1,18 +1,20 @@
 import { Component, Input, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Course } from '../../types';
 import { FilestackService } from '../../services/filestack.service';
 import { PickerFileMetadata, PickerOptions } from 'filestack-js';
 
 import { doc, updateDoc } from '@firebase/firestore';
-import { Firestore } from '@angular/fire/firestore';
+import { Firestore, deleteDoc, getDoc } from '@angular/fire/firestore';
+import { ModalComponent } from "../modal/modal.component";
+import { EditCourseFormComponent } from "../edit-course-form/edit-course-form.component";
 
 @Component({
-  selector: 'app-course-card',
-  standalone: true,
-  imports: [RouterLink],
-  templateUrl: './course-card.component.html',
-  styleUrl: './course-card.component.scss',
+    selector: 'app-course-card',
+    standalone: true,
+    templateUrl: './course-card.component.html',
+    styleUrl: './course-card.component.scss',
+    imports: [RouterLink, ModalComponent, EditCourseFormComponent]
 })
 export class CourseCardComponent {
 
@@ -20,6 +22,8 @@ export class CourseCardComponent {
   image: PickerFileMetadata | null = null;
   filestack = inject(FilestackService);
   firestore = inject(Firestore);
+
+  constructor(private router: Router) {}
 
   editCourseImage(event: Event) {
 
@@ -65,4 +69,6 @@ export class CourseCardComponent {
     const response = await this.filestack.deleteFile(handle);
     console.log(response);
   }
+
+  
 }
