@@ -3,19 +3,23 @@ import { Course, Lecture } from '../../types';
 import { CommonModule } from '@angular/common';
 import { PickerFileMetadata, PickerOptions } from 'filestack-js';
 import { FilestackService } from '../../services/filestack.service';
-import { Firestore, doc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, deleteDoc, doc, getDoc, updateDoc } from '@angular/fire/firestore';
+import { EditLectureFormComponent } from "../edit-lecture-form/edit-lecture-form.component";
+import { ModalComponent } from "../modal/modal.component";
 
 @Component({
-  selector: 'app-lecture-list-item',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './lecture-list-item.component.html',
-  styleUrl: './lecture-list-item.component.scss',
+    selector: 'app-lecture-list-item',
+    standalone: true,
+    templateUrl: './lecture-list-item.component.html',
+    styleUrl: './lecture-list-item.component.scss',
+    imports: [CommonModule, EditLectureFormComponent, ModalComponent]
 })
 export class LectureListItemComponent {
+
   isOpen = false;
   @Input() lecture!: Lecture;
   @Input() course!: Course;
+  isEditLectureModalOpen = false;
   filestack = inject(FilestackService);
   firestore = inject(Firestore);
 
@@ -71,5 +75,17 @@ export class LectureListItemComponent {
 
     const response = await this.filestack.deleteFile(handle);
     console.log(response);
+  }
+
+
+  async deleteLecture(lectureId: string) {
+
+    try {
+      const docRef = doc(this.firestore, `courses/${this.course.id}/lectures/${lectureId}`);
+      await deleteDoc(docRef);
+      console.log("Lecture deleted successfully");
+    } catch (error) {
+      console.error("Error deleting lecture:", error);
+    }
   }
 }

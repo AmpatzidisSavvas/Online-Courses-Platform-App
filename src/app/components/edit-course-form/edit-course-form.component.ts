@@ -66,7 +66,6 @@ export class EditCourseFormComponent implements OnInit {
       await updateDoc(docRef, updatedCourse);
       console.log('Course updated successfully');
       this.router.navigate(['/courses']);
-      
     }
     
   }

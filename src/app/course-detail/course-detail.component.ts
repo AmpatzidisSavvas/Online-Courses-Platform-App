@@ -7,9 +7,9 @@ import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { LectureListItemComponent } from '../components/lecture-list-item/lecture-list-item.component';
 import { LoaderComponent } from '../components/loader/loader.component';
-import { LECTURES } from '../dummy-data';
 import { Firestore, collection, collectionData, deleteDoc, doc, getDoc, orderBy, query } from '@angular/fire/firestore';
 import { EditCourseFormComponent } from "../components/edit-course-form/edit-course-form.component";
+import { EditLectureFormComponent } from "../components/edit-lecture-form/edit-lecture-form.component";
 
 @Component({
     selector: 'app-course-detail',
@@ -22,16 +22,18 @@ import { EditCourseFormComponent } from "../components/edit-course-form/edit-cou
         AsyncPipe,
         LectureListItemComponent,
         LoaderComponent,
-        EditCourseFormComponent
+        EditCourseFormComponent,
     ]
 })
 export class CourseDetailComponent implements OnInit {
   
   @Input() course!: Course;
+  @Input() lecture!: Lecture;
   isLoadingCourse = false;
   lectures$!: Observable<Lecture[]>;
   isCreateLectureModalOpen = false;
   isEditCourseModalOpen = false;
+  isEditLectureModalOpen = false;
   activateRoute = inject(ActivatedRoute);
   firestore = inject(Firestore);
   router = inject(Router);

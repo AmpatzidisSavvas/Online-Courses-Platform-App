@@ -33,7 +33,7 @@ export class CreateLectureFormComponent {
   async onSubmit() {
     const lecture: Lecture = {
       ...this.lectureForm.value,
-      id: self.crypto.randomUUID()
+      lectureId: self.crypto.randomUUID()
     };
     const docRef = doc(this.firestore, `courses/${this.course.id}/lectures/${lecture.id}`);
     await setDoc(docRef, {
