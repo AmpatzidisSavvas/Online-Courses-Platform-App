@@ -12,24 +12,48 @@
     <p class="text-gray-700 text-base mb-4">
       {{ course.description }}
     </p>
+    <hr>
+    <div class="flex items-center">
+      <button (click)="isEditCourseModalOpen = true"
+        class="bg-yellow-500 hover:bg-yellow-600 text-white flex items-center gap-1 font-bold py-2 px-4 rounded m-1">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M17.8 18.6l3.4 3.4a1 1 0 01-1.4 1.4l-3.4-3.4a7 7 0 01-9.8-9.8l3.4 3.4a1 1 0 01.4.8v1a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h1a1 1 0 01.8.4 1 1 0 01.2 1l3.4 3.4a7 7 0 019.8 9.8z" />
+        </svg>
+        Edit
+      </button>
+      <button (click)="confirmDelete(course.id)"
+        class="bg-red-500 hover:bg-red-600 text-white flex gap-1 font-bold py-2 px-4 rounded">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        Delete
+      </button>
+    </div>
+    
     <div class="border-t border-gray-300 pt-4 mt-4">
       <div class="flex items-center justify-between">
         <h3 class="text-lg font-semibold text-gray-800 mb-3">Lectures</h3>
-        <button (click)="isCreateLectureModalOpen = true"
-          class="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-1 font-bold py-2 px-4 rounded">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          Create
-        </button>
+        <div class="flex items-center justify-center">
+            <button (click)="isCreateLectureModalOpen = true"
+              class="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-1 font-bold py-2 px-4 rounded m-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Create
+            </button>
+        </div>
       </div>
-      @if (!(lectures)) {
+      @if (!(lectures$)) {
         <div class="w-full py-4 flex items-center justify-center">
           <app-loader></app-loader>
         </div>
       } @else {
         <ul>
-          @for(lecture of lectures; track lecture.title) {
+          @for(lecture of lectures$ | async; track lecture.title) {
             <li class="ml-4">
               <app-lecture-list-item [course]="course" [lecture]="lecture"></app-lecture-list-item>
             </li>
@@ -46,3 +70,8 @@
 <app-modal [showModal]="isCreateLectureModalOpen" (closeModal)="isCreateLectureModalOpen = false">
   <app-create-lecture-form (formSubmit)="isCreateLectureModalOpen = false" [course]="course!"></app-create-lecture-form>
 </app-modal>
+
+<app-modal [showModal]="isEditCourseModalOpen" (closeModal)="isEditCourseModalOpen = false">
+  <app-edit-course-form (formSubmit)="isEditCourseModalOpen = false" [course]="course"></app-edit-course-form>
+</app-modal>
+
